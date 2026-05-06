@@ -5,12 +5,18 @@ vim.opt.expandtab = true
 vim.opt.softtabstop = 2
 
 vim.pack.add({
+  { src = 'https://github.com/nvim-mini/mini.pick' },
   { src = 'https://github.com/navarasu/onedark.nvim' },
 });
 
+require('mini.pick').setup()
 require('onedark').setup({
   transparent = true,
   style = 'darker',
 })
+
+vim.keymap.set('n', '<leader>f', ':Pick files<CR>');
+vim.keymap.set('n', '<leader>s', ':Pick grep<CR>');
+vim.keymap.set('n', '<leader>b', ':Pick buffers<CR>');
 
 vim.cmd('colorscheme onedark')
