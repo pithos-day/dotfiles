@@ -16,14 +16,8 @@ link_file() {
     ln -s "$link_file" "$link_target" && echo -e "$file_name \033[32mlinked\033[0m"
 }
 
-link_file "tmux/.tmux.conf" "$HOME"
 link_file "bash/.bashrc" "$HOME"
 link_file "bash/.bash_profile" "$HOME"
 
-link_file "ghostty" "$HOME/.config"
-link_file "aerospace" "$HOME/.config"
-
-link_file "opencode/opencode.json" "$HOME/.config/opencode"
-link_file "opencode/skills" "$HOME/.config/opencode"
-link_file "opencode/agents" "$HOME/.config/opencode"
-link_file "opencode/themes" "$HOME/.config/opencode"
+link_file "foot" "$HOME/.config"
+link_file "nvim" "$HOME/.config"
