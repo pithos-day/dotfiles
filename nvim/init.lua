@@ -30,12 +30,18 @@ vim.pack.add({
   { src = "https://github.com/neovim/nvim-lspconfig" },
   { src = "https://github.com/lewis6991/gitsigns.nvim" },
   { src = "https://github.com/nvim-mini/mini.pick" },
+  { src = "https://github.com/folke/snacks.nvim" },
   { src = "https://github.com/navarasu/onedark.nvim" },
   { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "master" },
 });
 
 require("gitsigns").setup()
 require("mini.pick").setup()
+require("snacks").setup({
+  bigfile = { enabled = true },
+  indent = { enabled = true },
+  quickfile = { enabled = true },
+})
 require("onedark").setup({
   transparent = true,
   style = "darker",
