@@ -11,5 +11,5 @@ git_branch() {
 }
 PS1='[\u@\h \W\[\e[32m\]$(git_branch)\[\e[0m\]]\$ '
 
-export PATH="/usr/java/jre1.8.0_471/bin:$PATH"
+export PATH="/home/admin/.jdks/temurin-21.0.8/bin/:$PATH"
 export PATH="/home/admin/.local/bin:$PATH"
