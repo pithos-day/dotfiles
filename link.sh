@@ -21,3 +21,11 @@ link_file "bash/.bash_profile" "$HOME"
 
 link_file "foot" "$HOME/.config"
 link_file "nvim" "$HOME/.config"
+
+# link opencode skills
+
+mkdir -p "$HOME/.opencode/skills"
+for skill in opencode/skills/*/; do
+    name="$(basename "$skill")"
+    link_file "opencode/skills/$name" "$HOME/.opencode/skills"
+done
