@@ -34,7 +34,7 @@ description: >-
 3. コミットメッセージのフッター（トレイラー）にモデル名を追加して `git commit` する
    - フッター形式: `Commit-Model: <現行モデルの表示名>`
    - 例: `Commit-Model: DeepSeek V4 Flash`
-   - 例: `Commit-Model: MiMo V2.5`
+   - 例: `Commit-Model: MiMo V2.6 Flash`
    - `-m` を2回指定すると git が間に空行を挿入し、2個目がトレイラーになる:
      ```
      git commit -m "fix: resolve login timeout" -m "Commit-Model: DeepSeek V4 Flash"
