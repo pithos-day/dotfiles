@@ -33,11 +33,13 @@ description: >-
 2. 差分から type を判定（詳細は `references/type-criteria.md` を参照）
 3. コミットメッセージのフッター（トレイラー）にモデル名を追加して `git commit` する
    - フッター形式: `Commit-Model: <現行モデルの表示名>`
-   - 例: `Commit-Model: DeepSeek V4 Flash`
+   - 例: `Commit-Model: DeepSeek V4.1 Flash`
    - 例: `Commit-Model: MiMo V2.6 Flash`
+   - モデル名に `Free` が含まれる場合（無料枠モデルなど）は `Free` を含めない
+     (例: `DeepSeek V4.1 Flash Free` → `Commit-Model: DeepSeek V4.1 Flash`)
    - `-m` を2回指定すると git が間に空行を挿入し、2個目がトレイラーになる:
      ```
-     git commit -m "fix: resolve login timeout" -m "Commit-Model: DeepSeek V4 Flash"
+     git commit -m "fix: resolve login timeout" -m "Commit-Model: DeepSeek V4.1 Flash"
      ```
 
 ## Gotchas
