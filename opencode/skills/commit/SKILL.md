@@ -1,7 +1,7 @@
 ---
 name: commit
 description: >-
-  変更をステージして Conventional Commits 形式でコミットする。ステージング (対象ファイルを 1 つずつ明示指定)、コミットメッセージ生成、type 自動判定、Commit-Model トレイラー付与に使用。「コミットして」「commit」「変更をコミット」「コミットメッセージ」で起動する。push は依頼されない限り行わない。
+  変更をステージして Conventional Commits 形式（scope なし）でコミットする。ステージング (対象ファイルを 1 つずつ明示指定)、コミットメッセージ生成、type 自動判定、Commit-Model トレイラー付与に使用。「コミットして」「commit」「変更をコミット」「コミットメッセージ」で起動する。push は依頼されない限り行わない。
 ---
 
 # Commit Skill
@@ -22,6 +22,11 @@ description: >-
 ```
 <type>: <subject>
 ```
+
+### scope は付けない (必須)
+- `type(scope): subject` 形式は使わず、必ず `type: subject` とする
+- 例: `fix(markdown): ...` ではなく `fix: ...`、`docs(content): ...` ではなく `docs: ...`
+- 変更対象のファイル名・ディレクトリ名・機能名を括弧書きで補わない
 
 ### type (必須・小文字)
 - `build | chore | ci | docs | feat | fix | perf | refactor | revert | style | test` のいずれか
@@ -51,6 +56,7 @@ description: >-
   (untracked や未ステージ変更が残っていたらコミット漏れ)
 - 型チェック・テストが失敗した場合はコミットしない (修正してから)
 - 複数のtypeに該当する場合は、最も主要なものを選択
+- `type(scope):` 形式 (`fix(markdown):` や `docs(content):` など) は使わない。常に `fix:` / `docs:` と書く
 - マージコミットにはこのスキルを使用しない
 - スクワッシュコミットの場合は、全体の変更内容からtypeを判定
 - 初期コミットなど全ファイルが未ステージの場合は中断し、ステージング方針をユーザーに確認する
