@@ -22,10 +22,12 @@ link_file "bash/.bash_profile" "$HOME"
 link_file "foot" "$HOME/.config"
 link_file "nvim" "$HOME/.config"
 
-# link opencode skills
+# link agent skills
+# ~/.agents/skills: opencode, codex など / ~/.claude/skills: claude code
 
-mkdir -p "$HOME/.opencode/skills"
-for skill in opencode/skills/*/; do
-    name="$(basename "$skill")"
-    link_file "opencode/skills/$name" "$HOME/.opencode/skills"
+for skills_dir in "$HOME/.agents/skills" "$HOME/.claude/skills"; do
+    mkdir -p "$skills_dir"
+    for skill in agents/skills/*/; do
+        link_file "agents/skills/$(basename "$skill")" "$skills_dir"
+    done
 done
