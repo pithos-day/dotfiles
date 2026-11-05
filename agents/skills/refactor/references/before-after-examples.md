@@ -2,6 +2,9 @@
 
 診断結果の説明や修正提案のとき、このファイルの例を参照すると読者に意図を伝えやすい。例は言語非依存で示す。
 
+- 見出しに「バグ修正を伴う」とある例は挙動が変わるため、リファクタリングとは別の変更として扱う。それ以外の例は振る舞いを保つ。
+- JavaScript の例の `var` は原典の表記。実際のコードではプロジェクトの規約に従い、通常は `const` / `let` を使う。
+
 ## 1. 名前: retval → 値の目的を表す名前
 
 ```javascript
@@ -32,11 +35,13 @@ CART_TOO_BIG_LIMIT = 10
 if shopping_cart.num_items() >= CART_TOO_BIG_LIMIT:
     Error("Too many items in cart.")
 
-# AFTER
-MAX_ITEMS_IN_CART = 10
+# AFTER: 10 件以上でエラーという挙動を保つため、上限は 9
+MAX_ITEMS_IN_CART = 9
 if shopping_cart.num_items() > MAX_ITEMS_IN_CART:
     Error("Too many items in cart.")
 ```
+
+ポイント: 上限を 10 件にしたかったのなら元のコードはバグ。その場合は改名と分けて、バグ修正として別の変更にする。
 
 ## 3. 名前: 真偽値の否定形を避ける
 
@@ -98,7 +103,7 @@ if (user_result != SUCCESS) {
     return;
 }
 if (permission_result != SUCCESS) {
-    reply.WriteErrors(permission_result);
+    reply.WriteErrors("error reading permissions");
     reply.Done();
     return;
 }
@@ -106,7 +111,9 @@ reply.WriteErrors("");
 reply.Done();
 ```
 
-## 7. 制御フロー: do/while → while
+## 7. 制御フロー: do/while → while (バグ修正を伴う)
+
+BEFORE と AFTER の結果が同じになるのは、`node != null` かつ `max_length >= 1` のときだけ。呼び出し元で保証されていない場合は、バグ修正として別の変更にする。
 
 ```java
 // BEFORE: 条件がコードの下にあり不自然
@@ -118,7 +125,7 @@ public boolean ListHasNode(Node node, String name, int max_length) {
     return false;
 }
 
-// AFTER: while なら max_length=0 や node=null でも正しく動く
+// AFTER: 条件が先頭に来る。node=null でも落ちず、max_length=0 なら何も調べない
 public boolean ListHasNode(Node node, String name, int max_length) {
     while (node != null && max_length-- > 0) {
         if (node.name().equals(name)) return true;
@@ -139,10 +146,12 @@ bucket = FindBucket(key);
 if (bucket != NULL) assert(!bucket->IsOccupied());
 ```
 
-## 9. 式: 複雑な場合分けは「反対」から
+## 9. 式: 複雑な場合分けは「反対」から (バグ修正を伴う)
+
+半開区間 `[begin, end)` が前提。`begin == other.end` のとき、BEFORE は true、AFTER は false を返す。AFTER への置き換えはバグ修正として別の変更にする。
 
 ```cpp
-// BEFORE: 場合分けが爆発し、バグ(包含ケースの見落とし)も潜む
+// BEFORE: 場合分けが多く、境界のバグ(begin <= other.end)が見つけにくい
 return (begin >= other.begin && begin <= other.end) ||
        (end > other.begin && end <= other.end) ||
        (begin <= other.begin && end >= other.end);
@@ -326,7 +335,7 @@ void CheckScoresBeforeAfter(string input, string expected_output) {
     vector<ScoredDocument> docs = ScoredDocsFromString(input);
     SortAndFilterDocs(&docs);
     string output = ScoredDocsToString(docs);
-    assert(output == expected_output);
+    BOOST_REQUIRE_EQUAL(output, expected_output);
 }
 // テスト呼び出し:
 CheckScoresBeforeAfter("2, 1, 3", "3, 2, 1");    // Basic sorting
