@@ -25,9 +25,16 @@ link_file "nvim" "$HOME/.config"
 # link agent skills
 # ~/.agents/skills: opencode, codex など / ~/.claude/skills: claude code
 
+# claude code では組み込みの skill-creator と重複するスキルを除外する
+claude_excluded_skills=("review-skill")
+
 for skills_dir in "$HOME/.agents/skills" "$HOME/.claude/skills"; do
     mkdir -p "$skills_dir"
     for skill in agents/skills/*/; do
-        link_file "agents/skills/$(basename "$skill")" "$skills_dir"
+        skill_name="$(basename "$skill")"
+        if [[ "$skills_dir" == "$HOME/.claude/skills" && " ${claude_excluded_skills[*]} " == *" $skill_name "* ]]; then
+            continue
+        fi
+        link_file "agents/skills/$skill_name" "$skills_dir"
     done
 done
